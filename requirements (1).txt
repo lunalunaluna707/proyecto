@@ -1,0 +1,9 @@
+Flask
+Gunicorn
+Flask
+Gunicorn
+pusher
+mysql-connector-python
+pytz
+pyOpenSSL==23.1.0
+
