@@ -8,7 +8,7 @@ from flask import redirect
 from flask import jsonify
 from empleadoF import empleadoFacade
 from datetime import datetime,  timedelta
-from flask_cors import CORS
+
 import pusher
 import mysql.connector
 from handlers import pusherHandler, consultaHandler, pusherHandlerID, eliminarHandler, BDHandler
@@ -18,7 +18,7 @@ import pusher
 
 
 app = Flask(__name__) 
-CORS(app)
+
 utc_now = datetime.now(pytz.utc)
 adjusted_time = utc_now - timedelta(minutes=10)  
 print("Hora ajustada en UTC:", adjusted_time)
