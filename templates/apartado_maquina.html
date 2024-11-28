@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Principal</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery -->
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    h2{
+      color: black;
+    }
+    #contenedor{
+      background-color: rgb(255, 255, 255);
+      border-style: solid;
+      border-color: rgb(187, 187, 187); 
+      border-width: 1px;
+      border-radius: 10px;
+    }
+    .navbar {
+        background-color: #ffcc00; 
+        border: none; 
+        box-shadow: none;
+    }
+
+    .navbar-inverse .navbar-nav > li > a {
+        color: #ffffff;
+    }
+
+    .navbar-inverse .navbar-nav > li.active > a {
+        color: #ffcc00; 
+    }
+
+    .navbar-inverse .navbar-nav > li > a:hover {
+        color: #11110f; /* Amarillo en hover */
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="principal">Principal</a></li>
+                <li><a href="empleados">Empleados</a></li>
+                <li><a href="maquinas">Maquinas</a></li>
+                <li><a href="citas">Citas</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5 my-5 border" id="contenedor" name="contenedor">
+      {% if message %}
+      {% if 'No se pudo conectar' in message or 'No se encontro registro' in message %}
+        <p class="alert alert-danger">{{ message }}</p>
+      {% else %}
+        <p class="alert alert-success">{{ message }}</p>
+      {% endif %}
+      {% endif %}
+
+      {% if registros and registros|length > 0 %}
+        <h3>{{ registros[1] }}</h3>
+        <p id="txtplacamaq" name="txtplacamaq"><strong>Placa:</strong> {{ registros[2] }}</p>
+        <p id="txtmodelomaq" name="txtmodelomaq"><strong>Modelo:</strong> {{ registros[3] }}</p>
+        <p id="txtlineamaq" name="txtlineamaq"><strong>Linea:</strong> {{ registros[4] }}</p>
+        <p id="txtmarcamaq" name="txtmarcamaq"><strong>Marca:</strong> {{ registros[5] }}</p>
+        <p id="txtseriemaq" name="txtseriemaq"><strong>Serie:</strong>  {{ registros[6] }}</p>
+        <p id="txtempleado" name="txtempleado"><strong>Operador Asignado:</strong> {{ operador[0] if operador else 'No asignado' }}</p>
+      {% else %}
+        <p>No hay datos disponibles para mostrar</p>
+      {% endif %}
+
+      <h3>Mantenimientos realizados:</h3>
+      <div class="{% if mantenimientos|length > 2 %}table-responsive{% endif %}">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table-primary">
+              <th>Fecha</th>
+              <th>Horometro</th>
+              <th>Limite de mantenimiento</th>
+              <th>Tiempo restante</th>
+              <th>Mantenimientos Realizados</th>
+          
+            </tr>
+          </thead>
+          <tbody id="tbodyLog">
+            {% if mantenimientos and mantenimientos|length > 0 %}
+              {% for mantenimiento in mantenimientos %}
+                <tr>
+                  <td>{{ mantenimiento[2] }}</td>
+                  <td>{{ mantenimiento[3] }}</td>
+                  <td>{{ mantenimiento[4] }}</td>
+                  <td>{{ mantenimiento[5] }}</td>
+                  <td>{{ mantenimiento[6] }}</td>
+            
+                </tr>
+              {% endfor %}
+            {% else %}
+              <p>No hay datos disponibles para mostrar</p>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      Pusher.logToConsole = true;
+      var pusher = new Pusher('2ea386b7b90472052932', { cluster: 'us2' });
+      var channel = pusher.subscribe('my-channel');
+
+      channel.bind('my-event', function(data) {
+    $.ajax({
+        url: location.href,
+        method: 'GET',
+        success: function(response) {
+            var newTbody = $(response).find('#tbodyLog');
+            $('#tbodyLog').html(newTbody.html());
+        },
+        error: function() {
+            Swal.fire('Error', 'Hubo un problema al actualizar los datos', 'error');
+        }
+    });
+});
+   
+
+      function confirmarEliminacion(id) {
+        event.preventDefault();
+        Swal.fire({
+          title: '¿Estás seguro?',
+          text: "¡Este mantenimiento será eliminado!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            $.ajax({
+              url: `/eliminarmantenimientodelamaquina/${id}`,
+              type: 'POST',
+              success: function(response) {
+                Swal.fire('Eliminado!', 'El mantenimiento ha sido eliminado.', 'success');
+                pusher.trigger('my-channel', 'my-event', { message: 'Mantenimiento actualizado' });
+               
+              },
+              error: function() {
+                Swal.fire('Error', 'Hubo un error al eliminar el mantenimiento', 'error');
+              }
+            });
+          }
+        });
+      }
+  
+    </script>
+</body>
+</html>

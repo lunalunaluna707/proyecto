@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Historial de mantenimiento</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery -->
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
+  <style>
+    h2{
+      color: black;
+    }
+    .machine-card {
+            margin-bottom: 20px; 
+            
+        }
+    #contenedor{
+      background-color: rgb(255, 255, 255);
+      border-style: solid;
+      border-color: rgb(187, 187, 187); 
+      border-width: 1px;
+      border-radius: 10px;
+    }
+    .navbar {
+            background-color: #ffcc00; 
+            border: none; 
+            box-shadow: none;
+
+        }
+        
+        .navbar-inverse .navbar-nav > li > a {
+            color: #ffffff;
+        }
+
+        .navbar-inverse .navbar-nav > li.active > a {
+            color: #ffcc00; 
+        }
+        .navbar-inverse .navbar-nav > li > a:hover {
+            color: #11110f; /* Amarillo en hover */
+        }
+    .boton-contenedor{
+      display: flex;
+      justify-content: flex-end;
+      gap: 3px;
+    }
+    .btn{
+      margin: 2px;
+    }
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"></a>
+                
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="principal">Principal</a></li>
+                <li><a href="empleados">Empleados</a></li>
+                <li><a href="maquinas">Maquinas</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mantenimiento <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="calcular">Calcular</a></li>
+                        <li><a href="mantenimiento">Registrar mantenimiento</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container p-5 my-5 border" id="contenedor" name="contenedor">
+        <h2>Lista de mantenimientos <span id="numeroregistros" class="badge">  </span> </h2>
+        <div class="form-group">
+            <label for="maquinaSelect">Seleccione una máquina:</label>
+            <select class="form-control" id="maquinaSelect" onchange="buscar()">
+              <option value="">Ver todo</option>
+             
+            </select>
+          </div>
+        <div class="row" id="maquinas">
+         
+        </div>
+    </div>
+ 
+
+
+ <script>
+
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('2ea386b7b90472052932', {
+      cluster: 'us2'
+    });
+    buscar();
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+    // alert(JSON.stringify(data));
+    buscar();
+    });
+    $(document).ready(function() {
+  $.get("/getMaquinas", function(data) {
+    for (var i = 0; i < data.length; i++) {
+      $("#maquinaSelect").append(`
+        <option value="${data[i].Id_Maquina}">${data[i].Nombre}</option>
+      `);
+    }
+  });
+});
+
+    function buscar() {
+    var maquinaId = $("#maquinaSelect").val();
+    $.get("/vistamantenimiento", { maquinaId: maquinaId }, function (respuesta) {
+    
+        $("#maquinas").html("");
+        $("#numeroregistros").text(respuesta.length); 
+        for (var i = 0; i < respuesta.length; i++) {
+            var registro = respuesta[i];
+
+            $("#maquinas").append(`
+                <div class="col-md-12">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Nombre de la Máquina</th>
+                <th>Fecha</th>
+                <th>Horómetro</th>
+                <th>Limite de Mantenimiento</th>
+                <th>Tiempo Restante</th>
+                <th>Mantenimientos Realizados</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${registro.Nombre_Maquina}</td>
+                <td>${registro.Fecha}</td>
+                <td>${registro.Horometro}</td>
+                <td>${registro.Limite_Mantenimiento}</td>
+                <td>${registro.Tiempo_Restante}</td>
+                <td>${registro.Descripcion}</td>
+                <td>
+                    <button class="btn btn-danger" id="btneliminar" name="btneliminar" onclick="confirmarEliminacion(${registro.Id_Mantenimiento})">
+                        <i class="ri-delete-bin-2-line"></i> Eliminar
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+            `);
+        }
+    });
+}
+
+        function eliminarmaquina(id){
+          if (confirm('¿Estas seguro de eliminar esta encuesta ?')){
+          $.ajax({
+            url:`/eliminarmantenimientodelamaquina/${id}`,
+            type:'POST',
+            success: function(){ 
+              alert('Eliminado'); 
+              buscar();
+            
+            },
+            error: function(err){
+              alert('No se pudo eliminar'); 
+              console.log(err)} 
+          });
+        }else{ 
+          console.log('Se cancelo la eliminacion');
+
+        }
+      }
+      function confirmarEliminacion(id) {
+    swal.fire({
+        title: '¿Estás seguro de eliminar este registro?',
+        text: 'No podrás revertir esta acción.',
+        imageUrl: 'https://cdn-icons-png.flaticon.com/512/3807/3807871.png',
+        imageWidth: 150,
+        imageHeight: 150,
+        imageAlt: 'Imagen de confirmación',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: "#d33",
+        confirmButtonText: 'Aceptar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/eliminarmantenimientodelamaquina/${id}`,
+                type: 'POST',
+                success: function() {
+                    swal.fire({
+                        title: 'Eliminado',
+                        text: 'El elemento ha sido eliminado',
+                        imageUrl: 'https://cdn-icons-png.flaticon.com/512/3807/3807871.png',
+                        imageWidth: 150,
+                        imageHeight: 150,
+                    });
+                    buscar();
+                },
+                error: function(err) {
+                    swal.fire(
+                        'Hubo un error',
+                        'El elemento no se ha podido eliminar',
+                        'error'
+                    );
+                    console.log(err);
+                }
+            });
+        }
+    });
+}
+
+  </script>
+
+</body>
+</html>

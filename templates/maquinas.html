@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Maquinas</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> <!-- jQuery -->
+  <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  
+  <style>
+    .machine-image {
+    width: 300px;   
+    height: 200px;  
+    object-fit: cover;  
+    border-radius: 5px; 
+    margin: 0 auto;      
+    display: block;      
+}
+
+    .machine-card {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #fff;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.machine-image-container {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.boton-contenedor {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.boton-contenedor .btn {
+    width: 48%;
+}
+
+.btn {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn-warning {
+    background-color: #ffbb33;
+    border: none;
+    color: white;
+}
+
+.btn-default {
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+}
+
+.btn-default:hover {
+    background-color: #d4d4d4;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+    .machine-card {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background-color: #fff;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.machine-image-container {
+    margin: 15px 0;
+    text-align: center;
+}
+
+.boton-contenedor {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.boton-contenedor .btn {
+    width: 48%;
+}
+
+.btn {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.btn-warning {
+    background-color: #ffbb33;
+    border: none;
+    color: white;
+}
+
+.btn-default {
+    background-color: #e0e0e0;
+    border: none;
+    color: #333;
+}
+
+.btn-default:hover {
+    background-color: #d4d4d4;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+    
+    h2{
+      color: black;
+    }
+    .machine-card {
+            margin-bottom: 20px; 
+            
+        }
+    #contenedor{
+      background-color: rgb(255, 255, 255);
+      border-style: solid;
+      border-color: rgb(187, 187, 187); 
+      border-width: 1px;
+      border-radius: 10px;
+    }
+    .navbar {
+            background-color: #ffcc00; 
+            border: none; 
+            box-shadow: none;
+
+        }
+        
+        .navbar-inverse .navbar-nav > li > a {
+            color: #ffffff;
+        }
+
+        .navbar-inverse .navbar-nav > li.active > a {
+            color: #ffcc00; 
+        }
+        .navbar-inverse .navbar-nav > li > a:hover {
+            color: #11110f; /* Amarillo en hover */
+        }
+    .boton-contenedor{
+      display: flex;
+      justify-content: flex-end;
+      gap: 3px;
+    }
+    .btn{
+      margin: 2px;
+    }
+    .machine-image {
+    width: 100%; /* Makes the image fill the container */
+    height: auto; /* Maintains aspect ratio */
+    max-width: 100%; /* Prevents the image from overflowing */
+    display: block;
+    border-radius: 5px; /* Optional: Rounds corners of the image */
+    margin: 0 auto;
+}
+  </style>
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"></a>
+                
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="principal">Principal</a></li>
+                <li><a href="empleados">Empleados</a></li>
+                <li><a href="maquinas">Maquinas</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Mantenimiento <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="calcular">Calcular</a></li>
+                        <li><a href="mantenimiento">Registrar mantenimiento</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container p-5 my-5 border" id="contenedor" name="contenedor">
+        <div style="margin: 10px;">
+            <a class="btn btn-warning" id="btnver" name="btnver" href="{{ url_for('formulariomaquina') }}">Agregar maquina</a>
+        </div>
+
+        <h2>Lista de máquinas <span id="numeroregistros" class="badge"></span> </h2>
+        <div class="row" id="maquinas">
+         
+        </div>
+    </div>
+ 
+
+
+ <script>
+
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('2ea386b7b90472052932', {
+      cluster: 'us2'
+    });
+    buscar();
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+    // alert(JSON.stringify(data));
+    buscar();
+    });
+  function buscar() {
+    $.get("/vistamaquina", function (respuesta) {
+        $("#maquinas").html("");
+        $("#numeroregistros").text(respuesta.length);
+
+        for (var i = 0; i < respuesta.length; i++) {
+            var registro = respuesta[i];
+
+            var imagenHtml = '';
+            if (registro.Imagen) {
+                imagenHtml = `<img src="${registro.Imagen}" alt="Imagen de máquina" style="width: 100%; height: 200px; border-radius: 8px;">`;
+            } else {
+                imagenHtml = '<img src="/static/imagenes/default-image.jpg" class="img-fluid" alt="Imagen no disponible" style="width: 100%; height: auto; border-radius: 8px;">';
+            }
+
+            $("#maquinas").append(`
+                <div class="col-md-4 machine-card">
+                    <div class="panel panel-default card">
+                        <div class="card-header">
+                            <h4 class="card-title">${registro.Nombre}</h4>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Placa:</strong> ${registro.Placas}</p>
+                            <p><strong>Modelo:</strong> ${registro.Modelo}</p>
+                            <p><strong>Línea:</strong> ${registro.Linea}</p>
+                            <p><strong>Marca:</strong> ${registro.Marca}</p>
+                            <p><strong>Serie:</strong> ${registro.Serie}</p>
+                            <div class="machine-image-container">
+                                ${imagenHtml}
+                            </div>
+                            <button class="btn btn-warning btn-block" onclick="window.location.href='/maquina/${registro.Id_Maquina}'">Ver</button>
+                            <div class="boton-contenedor">
+                                <button class="btn btn-default" id="btneditar" name="btneditar" onclick="window.location.href='/editarmaquina/${registro.Id_Maquina}'">
+                                    <i class="ri-edit-2-line"></i> Editar
+                                </button>
+                                <button class="btn btn-default" id="btneliminar" name="btneliminar" onclick="confirmarEliminacion(${registro.Id_Maquina})">
+                                    <i class="ri-delete-bin-2-line"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+    });
+}
+
+        function eliminarmaquina(id){
+          if (confirm('¿Estas seguro de eliminar esta encuesta ?')){
+          $.ajax({
+            url:`/eliminarmaquina/${id}`,
+            type:'POST',
+            success: function(){ 
+              alert('Eliminado'); 
+              buscar();
+            
+            },
+            error: function(err){
+              alert('No se pudo eliminar'); 
+              console.log(err)} 
+          });
+        }else{ 
+          console.log('Se cancelo la eliminacion');
+
+        }
+      }
+      function confirmarEliminacion(id){
+        swal.fire({
+          title:'¿Estas seguro de eliminar este registro?',
+          text:'No podras revetir esta acción',
+          imageUrl:'https://cdn-icons-png.flaticon.com/512/3807/3807871.png',
+          imageWidth:150,
+          imageHeight:150,
+          imageAlt: 'Imagen de confirmación',
+          showCancelButton:true,
+          confirmButtonColor:'#3085d6',
+          cancelButtonColor:"#d33",
+          confirmButtonText:'Aceptar',
+          cancelButtonText:'Cancelar'
+        }).then((result)=>{
+          if(result.isConfirmed){
+            $.ajax({
+            url:`/eliminarmaquina/${id}`,
+            type:'POST',
+            success:function(){
+              swal.fire({
+              title: 'Eliminado',
+              text:  'El elemento ha sido eliminado',
+              imageUrl:'https://cdn-icons-png.flaticon.com/512/3807/3807871.png',
+              imageWidth:150,
+              imageHeight:150,
+                
+            });
+              buscar();
+            },
+            error:function(err){
+              swal.fire(
+                'Hubo un error',
+                'El elemento no se ha podido eliminar',
+                'error'
+              );
+            }
+          });
+        }
+        });
+      }
+       
+  </script>
+
+</body>
+</html>
