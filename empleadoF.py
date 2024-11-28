@@ -1,9 +1,8 @@
-from empleadoDAO import Empleado
+from empleadoDAO import EmpleadoDAO
 
 class empleadoFacade:
-  
     def __init__(self, host, database, user, password):
-        self.dao = Empleado(host, database, user, password)
+        self.dao = EmpleadoDAO(host, database, user, password)
 
     def obtener_empleados(self):
         return self.dao.obtener_datos()
