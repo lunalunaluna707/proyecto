@@ -70,84 +70,105 @@
         <input type="email" class="form-control" id="txtcorreo" name="txtcorreo" value="{{registros[0][8]}}" required>
     </div>
     
-    <button type="submit" id="btnenviar" name="btnenviar" class="btn btn-warning "  >Registrar</button>
+    <button type="submit" id="btnenviar" name="btnenviar" class="btn btn-warning "  >Editar</button>
   </form><br>
 
 </div>
 <script>
     $(document).ready(function() {
-  $("#maquinaform").validate({
-    rules: {
-      txtnombremaquina : {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-      txtmodelo: {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-      txtserie: {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-      txtlinea: {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-      txtmarca: {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-      txtplaca: {
-        required: true,
-        minlength: 1,
-        maxlength:50
-      },
-   
-   
-    },
-    messages : {
-      txtnombremaquina: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracteres",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-        
-      },
-      txtmodelo: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracter",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-      },
-      txtserie: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracter",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-      },
-      txtmarca: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracter",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-      },
-      txtlinea: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracter",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-      },
-      txtplaca: {
-        required: "Por favor, llenar campo obligatorio",
-        minlength: "Requiere ingresar minimo 1 caracter",
-        maxlength:"Requiere ingresar maximo 50 caracteres"
-      },
-  
-    }
-  });
-});
+        $("#empleadoform").validate({
+            rules: {
+                txtnombre: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 100
+                },
+                txtnumempleado: {
+                    required: true,
+                    digits: true,
+                    minlength: 1,
+                    maxlength: 10
+                },
+                txtrfc: {
+                    required: true,
+                    minlength: 13,
+                    maxlength: 13
+                },
+                txtnss: {
+                    required: true,
+                    digits: true,
+                    minlength: 11,
+                    maxlength: 11
+                },
+                txtcurp: {
+                    required: true,
+                    minlength: 18,
+                    maxlength: 18
+                },
+                txtdomicilio: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 150
+                },
+                txttel: {
+                    required: true,
+                    digits: true,
+                    minlength: 10,
+                    maxlength: 10
+                },
+                txtcorreo: {
+                    required: true,
+                    email: true
+                }
+            },
+            messages: {
+                txtnombre: {
+                    required: "Por favor, ingrese el nombre completo.",
+                    minlength: "El nombre debe tener al menos 3 caracteres.",
+                    maxlength: "El nombre no debe superar los 100 caracteres."
+                },
+                txtnumempleado: {
+                    required: "Por favor, ingrese el número de empleado.",
+                    digits: "Solo se permiten números.",
+                    minlength: "El número de empleado debe tener al menos 1 dígito.",
+                    maxlength: "El número de empleado no debe superar los 10 dígitos."
+                },
+                txtrfc: {
+                    required: "Por favor, ingrese el RFC.",
+                    minlength: "El RFC debe tener exactamente 13 caracteres.",
+                    maxlength: "El RFC debe tener exactamente 13 caracteres."
+                },
+                txtnss: {
+                    required: "Por favor, ingrese el NSS.",
+                    digits: "Solo se permiten números.",
+                    minlength: "El NSS debe tener exactamente 11 dígitos.",
+                    maxlength: "El NSS debe tener exactamente 11 dígitos."
+                },
+                txtcurp: {
+                    required: "Por favor, ingrese la CURP.",
+                    minlength: "La CURP debe tener exactamente 18 caracteres.",
+                    maxlength: "La CURP debe tener exactamente 18 caracteres."
+                },
+                txtdomicilio: {
+                    required: "Por favor, ingrese la dirección.",
+                    minlength: "La dirección debe tener al menos 5 caracteres.",
+                    maxlength: "La dirección no debe superar los 150 caracteres."
+                },
+                txttel: {
+                    required: "Por favor, ingrese el número telefónico.",
+                    digits: "Solo se permiten números.",
+                    minlength: "El número telefónico debe tener exactamente 10 dígitos.",
+                    maxlength: "El número telefónico debe tener exactamente 10 dígitos."
+                },
+                txtcorreo: {
+                    required: "Por favor, ingrese el correo electrónico.",
+                    email: "Por favor, ingrese un correo electrónico válido."
+                }
+            }
+        });
+    });
 </script>
+
 
 </body>
 </html>
