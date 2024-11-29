@@ -131,39 +131,41 @@
         for (var i = 0; i < respuesta.length; i++) {
             var registro = respuesta[i];
 
-            $("#maquinas").append(`
-                <div class="col-md-12">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Nombre de la Máquina</th>
-                <th>Fecha</th>
-                <th>Horómetro</th>
-                <th>Limite de Mantenimiento</th>
-                <th>Tiempo Restante</th>
-                <th>Mantenimientos Realizados</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>${registro.Nombre_Maquina}</td>
-                <td>${registro.Fecha}</td>
-                <td>${registro.Horometro}</td>
-                <td>${registro.Limite_Mantenimiento}</td>
-                <td>${registro.Tiempo_Restante}</td>
-                <td>${registro.Descripcion}</td>
-                <td>
-                    <button class="btn btn-danger" id="btneliminar" name="btneliminar" onclick="confirmarEliminacion(${registro.Id_Mantenimiento})">
-                        <i class="ri-delete-bin-2-line"></i> Eliminar
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+           $("#maquinas").append(`
+    <div class="col-md-12">
+        <div class="table-responsive"> <!-- Contenedor responsivo -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre de la Máquina</th>
+                        <th>Fecha</th>
+                        <th>Horómetro</th>
+                        <th>Limite de Mantenimiento</th>
+                        <th>Tiempo Restante</th>
+                        <th>Mantenimientos Realizados</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${registro.Nombre_Maquina}</td>
+                        <td>${registro.Fecha}</td>
+                        <td>${registro.Horometro}</td>
+                        <td>${registro.Limite_Mantenimiento}</td>
+                        <td>${registro.Tiempo_Restante}</td>
+                        <td>${registro.Descripcion}</td>
+                        <td>
+                            <button class="btn btn-danger" id="btneliminar" name="btneliminar" onclick="confirmarEliminacion(${registro.Id_Mantenimiento})">
+                                <i class="ri-delete-bin-2-line"></i> Eliminar
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> 
+    </div>
+`);
 
-            `);
         }
     });
 }
