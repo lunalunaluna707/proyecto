@@ -78,10 +78,10 @@
 
       {% if registros and registros|length > 0 %}
         <h3>{{ registros[1] }}</h3>
-        <p id="txtplacamaq" name="txtplacamaq"><strong>Placa:</strong> {{ registros[2] }}</p>
-        <p id="txtmodelomaq" name="txtmodelomaq"><strong>Modelo:</strong> {{ registros[3] }}</p>
-        <p id="txtlineamaq" name="txtlineamaq"><strong>Linea:</strong> {{ registros[4] }}</p>
-        <p id="txtmarcamaq" name="txtmarcamaq"><strong>Marca:</strong> {{ registros[5] }}</p>
+        <p id="txtplacamaq" name="txtplacamaq"><strong>Placas:</strong> {{ registros[2] }}</p>
+        <p id="txtmodelomaq" name="txtmodelomaq"><strong>Linea:</strong> {{ registros[3] }}</p>
+        <p id="txtlineamaq" name="txtlineamaq"><strong>Marca:</strong> {{ registros[4] }}</p>
+        <p id="txtmarcamaq" name="txtmarcamaq"><strong>Modelo:</strong> {{ registros[5] }}</p>
         <p id="txtseriemaq" name="txtseriemaq"><strong>Serie:</strong>  {{ registros[6] }}</p>
         <p id="txtempleado" name="txtempleado"><strong>Operador Asignado:</strong> {{ operador[0] if operador else 'No asignado' }}</p>
       {% else %}
