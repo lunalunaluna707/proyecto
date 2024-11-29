@@ -12,6 +12,7 @@ from datetime import datetime,  timedelta
 import pusher
 import mysql.connector
 from handlers import pusherHandler, consultaHandler, pusherHandlerID, eliminarHandler, BDHandler
+from email_handler import enviar_correo_mantenimiento
 import pytz
 from pusher_manager import PusherManager
 import pusher
