@@ -622,6 +622,8 @@ def eventomantenimiento():
     incremento = int(request.form['txtincremento'])
     descripcion = request.form['txtdescripcion']
 
+    
+
     limite_mantenimiento = horometro + incremento
     tiempo_restante = limite_mantenimiento - horometro
     sql = """INSERT INTO mantenimiento_realizada 
@@ -640,7 +642,15 @@ def eventomantenimiento():
     result = handler_chain.handle(request_data)
     if result.get('error'):
         return jsonify({"error": result['error']}), 500
-    return render_template('mantenimiento.html', message='¡Mantenimiento registrado!')
+
+    try:
+        recipient_email = "marianavzz125670@gmail.com"  
+        enviar_correo_mantenimiento(nombre, horometro, fecha, descripcion, recipient_email)
+    except Exception as e:
+        print(f"Error enviando correo: {e}")
+        return render_template('mantenimiento.html', message='¡Mantenimiento registrado, pero no se pudo enviar el correo!')
+
+    return render_template('mantenimiento.html', message='¡Mantenimiento registrado y correo enviado!')
 
 @app.route('/calcular-mantenimiento', methods=['POST'])
 def mantenimiento_calculo():
